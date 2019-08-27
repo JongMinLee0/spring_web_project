@@ -31,5 +31,30 @@
 		where bno > 0
 		order by bno desc, regdate desc]]>
 	</select>
+	
+	<select id="listPage" resultType="org.zerock.domain.BoardVO">
+		<![CDATA[
+		select bno, title, content, writer, regdate, viewcnt
+		from(select rownum rm, tmp.* from 
+		(select * from tb1_board order by bno desc)tmp)
+		where rm between #{page} and #{page}+9;]]>
+	</select>
+	
+	<select id="listCriteria" resultType="org.zerock.domain.BoardVO">
+		<![CDATA[
+		select bno, title, content, writer, regdate, viewcnt
+		from(select rownum rm, tmp.* from 
+		(select * from tb1_board order by bno desc)tmp)
+		where rm between #{pageStart} and #{pageEnd}]]>
+	</select>
+	
+	<select id="countPaging" resultType="int">
+		<![CDATA[
+			select count(bno)
+			from tb1_board
+			where bno>0
+		]]>
+	</select>
+	
 
 </mapper>
